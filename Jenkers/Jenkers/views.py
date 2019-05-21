@@ -9,10 +9,11 @@ from jenkinsapi.jenkins import Jenkins
 from .forms import JobForm
 
 JENKINS_URL = os.environ.get("JENKINS_URL", 'http://localhost')
-JENKINS_PORT = os.environ.get('JENKINS_PORT', 8080)
+#JENKINS_PORT = os.environ.get('JENKINS_PORT', 8080)
 JENKINS_USER = os.environ.get('JENKINS_USER', 'admin')
 JENKINS_PASSWORD = os.environ.get('JENKINS_PASSWORD', 'cf4a43911dc24937bbd1092c6881b708')
-J = Jenkins(f"{JENKINS_URL}:{JENKINS_PORT}", JENKINS_USER, JENKINS_PASSWORD)
+#J = Jenkins(f"{JENKINS_URL}:{JENKINS_PORT}", JENKINS_USER, JENKINS_PASSWORD)
+J = Jenkins(f"{JENKINS_URL}", JENKINS_USER, JENKINS_PASSWORD)
 
 def get_jobs(request):
     # if this is a POST request we need to process the form data
@@ -24,7 +25,7 @@ def get_jobs(request):
             job = form.cleaned_data['job']
             status = J[job].get_last_build().get_status()
             try:
-                subprocess.check_output(['python ' + os.path.join(settings.BASE_DIR,'flipjenkins.py'), job], stderr=subprocess.STDOUT, shell=True)
+                subprocess.check_output(['python ' + os.path.join(settings.BASE_DIR,'flipjenkins.py')+ ' ' + ' '.join([status, job])], stderr=subprocess.STDOUT, shell=True)
                 form = JobForm()
                 return render(request, 'jobs.html', {'form': form, 'success': True})
             except subprocess.CalledProcessError as e:
