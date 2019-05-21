@@ -20,3 +20,4 @@ for pulse in range(250, 50, -1):
     print("rotating -1")
     wiringpi.pwmWrite(18, pulse)
     time.sleep(delay_period)
+wiringpi.pinMode(18, wiringpi.GPIO.INPUT)
