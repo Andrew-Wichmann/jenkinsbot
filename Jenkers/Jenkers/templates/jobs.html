@@ -2,7 +2,7 @@
 	<body>
 		<h1>Jobs</h1>
 		{% if error %}<p>Error running the "flipjenkins" command</p><p>{{ error_message }}</p>{% endif %}
-		{% if success %}<p>Success!</p>{% endif %}
+		{% if success %}<p>Job: {{job}}</p><p>Status: {{status}}</p>{% endif %}
 		<form action="/jobs/" method="post">
 			{% csrf_token %}
 			{{ form }}

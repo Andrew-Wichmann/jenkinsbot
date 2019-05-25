@@ -27,7 +27,7 @@ def get_jobs(request):
             try:
                 subprocess.check_output(['python ' + os.path.join(settings.BASE_DIR,'flipjenkins.py')+ ' ' + ' '.join([status, job])], stderr=subprocess.STDOUT, shell=True)
                 form = JobForm()
-                return render(request, 'jobs.html', {'form': form, 'success': True})
+                return render(request, 'jobs.html', {'form': form, 'success': True, "job": job, "status": status})
             except subprocess.CalledProcessError as e:
                 return render(request, 'jobs.html', {'form': form, 'error': True, 'error_message': e.output})
 

@@ -10,4 +10,4 @@ JENKINS_PASSWORD = os.environ.get('JENKINS_PASSWORD', 'cf4a43911dc24937bbd1092c6
 J = Jenkins(f"{JENKINS_URL}", JENKINS_USER, JENKINS_PASSWORD)
 
 class JobForm(forms.Form):
-    job = forms.ChoiceField(choices=[(job, job) for job in J.keys()])
+    job = forms.ChoiceField(choices=[(job, job) for job in list(filter(lambda job: 'sherpa' in job, J.jobs.keys()))])

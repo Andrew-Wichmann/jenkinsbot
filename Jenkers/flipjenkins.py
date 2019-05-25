@@ -1,5 +1,6 @@
 import time
 import wiringpi
+import sys
 
 wiringpi.wiringPiSetupGpio()
 
@@ -12,12 +13,16 @@ wiringpi.pwmSetRange(2000)
 
 delay_period = 0.01
 
-for pulse in range(50, 250, 1):
-    print("rotating 1")
-    wiringpi.pwmWrite(18, pulse)
-    time.sleep(delay_period)
-for pulse in range(250, 50, -1):
-    print("rotating -1")
-    wiringpi.pwmWrite(18, pulse)
-    time.sleep(delay_period)
+
+JOB_STATUS = sys.argv[1]
+JOB_NAME = sys.argv[2]
+
+if JOB_STATUS == 'SUCCESS':
+    for pulse in range(50, 250, 1):
+        wiringpi.pwmWrite(18, pulse)
+        time.sleep(delay_period)
+elif JOB_STATUS == 'FAILURE':
+    for pulse in range(250, 50, -1):
+        wiringpi.pwmWrite(18, pulse)
+        time.sleep(delay_period)
 wiringpi.pinMode(18, wiringpi.GPIO.INPUT)
